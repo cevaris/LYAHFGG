@@ -1,0 +1,5 @@
+dist/
+*.c
+*.o
+*.eventlog
+.cabal-sandbox
