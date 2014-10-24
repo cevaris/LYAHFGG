@@ -1,5 +1,6 @@
 module Functions where
 
+import Control.Applicative
 
 --------------------------------------------------------
 -- Pattern Matching
@@ -14,16 +15,21 @@ sayMe x = "Not between 1 and 5"
 
 --------------------------------------------------------
 --Point Manipulation
+data Point = Point2 Integer Integer 
+           | Point3 Integer Integer Integer 
+           deriving (Show, Eq)
 
---type Point = (Integer, Integer)
+data Error = DivdeByZeroError
+           | InvalidPointArgument
+           | PointTypeNotSupported
+           deriving (Show, Eq)
 
---midpoint :: Point -> Point -> Point
---midpoint (x1,y1) (x2, y2) = (((x1+x2) `div` 2), ((y1+y2) `div` 2))
+midpoint :: Point -> Point -> Maybe Point
+midpoint (Point2 x1 y1) (Point2 x2 y2)       = Just (Point2 ((x1+x2) `div` 2) ((y1+y2) `div` 2))
+midpoint (Point3 x1 y1 z1) (Point3 x2 y2 z2) = Just (Point3 z1 y1 x1)
 
-
-data Point =  Point2 Integer Integer 
-            | Point3 Integer Integer Integer deriving (Show, Eq)
-
-midpoint :: Point -> Point -> Point
-midpoint (Point2 x1 y1) (Point2 x2 y2) = (Point2 ((x1+x2) `div` 2) ((y1+y2) `div` 2))
-midpoint (Point3 x1 y1 z1) (Point3 x2 y2 z2) = (Point3 z1 y1 x1)
+slope :: Point -> Point -> Either Error Integer
+slope (Point2 x1 y1) (Point2 x2 y2) 
+  | (x2-x1) == 0 = Left DivdeByZeroError
+  | (x2-x1) /= 0 = Right $ (y2-y1) `div` (x2-x1)
+slope (Point3 x1 y1 z1) (Point3 x2 y2 z2) = Left PointTypeNotSupported
