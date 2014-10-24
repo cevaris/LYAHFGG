@@ -1,4 +1,4 @@
-module Functions where
+module Functions where(sayMe, midpoint, slope)
 
 import Control.Applicative
 
