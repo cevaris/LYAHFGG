@@ -1,4 +1,4 @@
-module Recursion where
+module Recursion (maximum', replicate', take', reverse') where
 
 --data Error = InvalidArgumentError String
 --           | InvalidPointArgument String
